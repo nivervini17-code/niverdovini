@@ -110,7 +110,7 @@ function updatePlayButton() {
 
 
 // =========================
-// EVENTOS PLAY / PAUSE
+// EVENTOS
 // =========================
 
 playPauseButton.addEventListener(
@@ -135,7 +135,7 @@ audio.addEventListener(
 
 
 // =========================
-// METADADOS
+// METADADOS DA MÚSICA
 // =========================
 
 audio.addEventListener(
@@ -150,7 +150,7 @@ audio.addEventListener(
 
 
 // =========================
-// ATUALIZAR PROGRESSO
+// PROGRESSO
 // =========================
 
 audio.addEventListener(
@@ -262,7 +262,9 @@ document
             audio.currentTime = 0;
 
             if (!audio.paused) {
+
                 audio.play();
+
             }
 
         }
