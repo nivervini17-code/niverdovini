@@ -63,11 +63,15 @@ function togglePlay() {
 
     if (audio.paused) {
 
-        audio.play().catch(() => {
-            console.log(
-                "O navegador bloqueou a reprodução automática."
-            );
-        });
+        audio
+            .play()
+            .catch(() => {
+
+                console.log(
+                    "O navegador bloqueou a reprodução automática."
+                );
+
+            });
 
     } else {
 
@@ -79,21 +83,23 @@ function togglePlay() {
 
 
 // =========================
-// ATUALIZAR INTERFACE
+// ATUALIZAR BOTÕES
 // =========================
 
 function updatePlayButton() {
 
     if (audio.paused) {
 
-        playPauseButton.textContent = "▶";
+        playPauseButton.textContent =
+            "▶";
 
         heroPlay.textContent =
             "▶ Ouvir";
 
     } else {
 
-        playPauseButton.textContent = "⏸";
+        playPauseButton.textContent =
+            "⏸";
 
         heroPlay.textContent =
             "⏸ Pausar";
@@ -104,7 +110,7 @@ function updatePlayButton() {
 
 
 // =========================
-// PLAY / PAUSE
+// EVENTOS PLAY / PAUSE
 // =========================
 
 playPauseButton.addEventListener(
@@ -112,18 +118,15 @@ playPauseButton.addEventListener(
     togglePlay
 );
 
-
 heroPlay.addEventListener(
     "click",
     togglePlay
 );
 
-
 audio.addEventListener(
     "play",
     updatePlayButton
 );
-
 
 audio.addEventListener(
     "pause",
@@ -132,7 +135,7 @@ audio.addEventListener(
 
 
 // =========================
-// DURAÇÃO DA MÚSICA
+// METADADOS
 // =========================
 
 audio.addEventListener(
@@ -231,6 +234,42 @@ volume.addEventListener(
 
 
 // =========================
+// BOTÃO ANTERIOR
+// =========================
+
+document
+    .getElementById("previous")
+    .addEventListener(
+        "click",
+        () => {
+
+            audio.currentTime = 0;
+
+        }
+    );
+
+
+// =========================
+// BOTÃO PRÓXIMO
+// =========================
+
+document
+    .getElementById("next")
+    .addEventListener(
+        "click",
+        () => {
+
+            audio.currentTime = 0;
+
+            if (!audio.paused) {
+                audio.play();
+            }
+
+        }
+    );
+
+
+// =========================
 // TECLADO
 // =========================
 
@@ -252,38 +291,6 @@ document.addEventListener(
 
     }
 );
-
-
-// =========================
-// BOTÕES ANTERIOR / PRÓXIMO
-// =========================
-
-document
-    .getElementById("previous")
-    .addEventListener(
-        "click",
-        () => {
-
-            audio.currentTime = 0;
-
-        }
-    );
-
-
-document
-    .getElementById("next")
-    .addEventListener(
-        "click",
-        () => {
-
-            audio.currentTime = 0;
-
-            if (!audio.paused) {
-                audio.play();
-            }
-
-        }
-    );
 
 
 // =========================
