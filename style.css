@@ -1,6 +1,6 @@
-/* =========================
+/* =========================================================
    RESET
-========================= */
+========================================================= */
 
 * {
     margin: 0;
@@ -13,961 +13,1020 @@ html {
 }
 
 body {
-    background: #050505;
+    background: #08090d;
     color: #ffffff;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    font-family: Arial, Helvetica, sans-serif;
     overflow-x: hidden;
 }
 
 button,
-a,
 input {
-    -webkit-tap-highlight-color: transparent;
+    font: inherit;
 }
 
-
-/* =========================
-   NAVBAR
-========================= */
-
-.navbar {
-    position: fixed;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 72px;
-
-    padding: 0 5%;
-
-    display: flex;
-    align-items: center;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(0, 0, 0, 0.97),
-            rgba(0, 0, 0, 0.72)
-        );
-
-    backdrop-filter: blur(10px);
-
-    z-index: 1000;
-
-    border-bottom:
-        1px solid
-        rgba(255, 255, 255, 0.05);
+button {
+    cursor: pointer;
 }
 
-.brand {
-    display: flex;
-    align-items: center;
-
-    text-decoration: none;
-
-    margin-right: 40px;
-}
-
-.logo {
-    width: 145px;
-    height: auto;
-
+img {
+    max-width: 100%;
     display: block;
 }
 
-.navbar nav {
-    display: flex;
-    gap: 28px;
+
+/* =========================================================
+   UTILITÁRIOS
+========================================================= */
+
+.hidden {
+    display: none !important;
 }
 
-.navbar nav a {
-    color: #d6d6d6;
 
-    text-decoration: none;
+/* =========================================================
+   TELA DE ABERTURA
+========================================================= */
 
-    font-size: 14px;
-
-    transition: 0.25s;
-}
-
-.navbar nav a:hover {
-    color: #ffffff;
-}
-
-.profile {
-    margin-left: auto;
-
-    width: 36px;
-    height: 36px;
+.intro-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 5px;
+    min-height: 100vh;
+    min-height: 100svh;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(220, 0, 0, 0.12),
+            transparent 38%
+        ),
+        #07080c;
+
+    transition:
+        opacity 0.8s ease,
+        visibility 0.8s ease;
+}
+
+.intro-screen.hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.intro-content {
+    width: min(90%, 600px);
+    text-align: center;
+
+    animation: introEnter 1.2s ease forwards;
+}
+
+.intro-logo {
+    font-size: clamp(3rem, 12vw, 6rem);
+    font-weight: 800;
+    letter-spacing: -4px;
+
+    margin-bottom: 30px;
+}
+
+.logo-v {
+    color: #e50914;
+}
+
+.intro-line {
+    width: 70px;
+    height: 2px;
+    margin: 0 auto 28px;
 
     background: #e50914;
+}
 
-    color: #ffffff;
+.intro-small {
+    color: #999;
+    font-size: 0.72rem;
+    letter-spacing: 4px;
 
-    font-weight: bold;
+    margin-bottom: 22px;
+}
+
+.intro-content h1 {
+    font-size: clamp(2.2rem, 8vw, 4.5rem);
+    line-height: 1.05;
+    letter-spacing: -2px;
+
+    margin-bottom: 24px;
+}
+
+.intro-content h1 span {
+    color: #e50914;
+}
+
+.intro-text {
+    color: #aaa;
+    max-width: 420px;
+
+    margin: 0 auto 35px;
+
+    line-height: 1.6;
 }
 
 
-/* =========================
-   HERO DESKTOP
-========================= */
+/* =========================================================
+   BOTÕES
+========================================================= */
 
-.hero {
-    min-height: 720px;
+.primary-button,
+.secondary-button,
+.box-button {
+    border: none;
+    border-radius: 6px;
 
-    position: relative;
+    min-height: 48px;
+    padding: 0 22px;
+
+    font-weight: 700;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.primary-button {
+    background: #e50914;
+    color: #fff;
+}
+
+.primary-button:hover {
+    background: #f6121d;
+    transform: translateY(-2px);
+}
+
+.secondary-button {
+    background: rgba(255,255,255,0.12);
+    color: white;
+
+    border: 1px solid rgba(255,255,255,0.12);
+}
+
+.secondary-button:hover {
+    background: rgba(255,255,255,0.18);
+}
+
+.box-button {
+    margin-top: 30px;
+
+    background: #e50914;
+    color: white;
+}
+
+.box-button:hover {
+    transform: translateY(-2px);
+    background: #f6121d;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 20;
+
+    height: 80px;
 
     display: flex;
     align-items: center;
+    justify-content: space-between;
+
+    padding: 0 5vw;
+
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.8),
+        transparent
+    );
+}
+
+.brand {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.brand-v {
+    color: #e50914;
+}
+
+.header-birthday {
+    color: #aaa;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    position: relative;
+
+    min-height: 82vh;
+    min-height: 82svh;
+
+    display: flex;
+    align-items: flex-end;
 
     padding:
-        120px 7%
+        120px 5vw
         80px;
-
+    
     overflow: hidden;
 }
 
 .hero-background {
     position: absolute;
-
     inset: 0;
 
     background:
         linear-gradient(
-            90deg,
-            rgba(5, 5, 5, 1) 0%,
-            rgba(5, 5, 5, 0.93) 28%,
-            rgba(5, 5, 5, 0.60) 52%,
-            rgba(5, 5, 5, 0.25) 100%
+            to right,
+            #08090d 0%,
+            rgba(8,9,13,0.92) 30%,
+            rgba(8,9,13,0.45) 65%,
+            rgba(8,9,13,0.95) 100%
         ),
         linear-gradient(
-            180deg,
-            rgba(0, 0, 0, 0.25),
-            #050505
+            to top,
+            #08090d 0%,
+            transparent 55%
         ),
         url("assets/capa-trevo.png");
 
     background-size: cover;
-
-    background-position:
-        center center;
-
-    transform: scale(1.03);
-}
-
-.hero-background::after {
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    background:
-        linear-gradient(
-            0deg,
-            #050505 0%,
-            transparent 35%
-        );
+    background-position: center;
+    
+    filter: saturate(0.8);
+    
+    transform: scale(1.02);
 }
 
 .hero-content {
-    max-width: 650px;
-
     position: relative;
-
     z-index: 2;
+
+    width: min(620px, 100%);
 }
 
-.exclusive {
+.hero-label {
     color: #e50914;
 
-    font-size: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 4px;
 
-    font-weight: bold;
-
-    letter-spacing: 2px;
+    margin-bottom: 16px;
 }
 
 .hero h1 {
-    margin-top: 15px;
-
-    font-size:
-        clamp(52px, 8vw, 92px);
-
-    line-height: 0.92;
-
-    font-weight: 900;
+    font-size: clamp(3rem, 9vw, 6rem);
+    line-height: 0.95;
 
     letter-spacing: -4px;
+
+    margin-bottom: 22px;
 }
 
-.hero h1 span {
-    display: inline-block;
-
-    margin-left: 8px;
-
-    color: #e50914;
-
-    font-family:
-        "Brush Script MT",
-        "Segoe Script",
-        cursive;
-
-    font-size:
-        clamp(38px, 5vw, 62px);
-
-    font-weight: normal;
-
-    letter-spacing: 0;
-
-    transform:
-        rotate(-5deg);
-}
-
-.meta {
-    display: flex;
-
-    gap: 20px;
-
-    margin-top: 22px;
-
-    color: #b8b8b8;
-
-    font-size: 14px;
-}
-
-.meta span:nth-child(2) {
-    color: #ffffff;
-}
-
-.hero p {
-    max-width: 500px;
-
-    margin-top: 25px;
-
+.hero-description {
     color: #d0d0d0;
 
-    font-size: 18px;
-
+    font-size: 1.05rem;
     line-height: 1.6;
+
+    max-width: 500px;
+
+    margin-bottom: 28px;
 }
 
 .hero-buttons {
     display: flex;
-
+    flex-wrap: wrap;
     gap: 12px;
-
-    margin-top: 30px;
-}
-
-.hero-buttons button,
-.hero-buttons a {
-    border: none;
-
-    padding: 13px 23px;
-
-    border-radius: 5px;
-
-    font-weight: bold;
-
-    font-size: 14px;
-
-    text-decoration: none;
-
-    cursor: pointer;
-
-    transition:
-        transform 0.2s,
-        background 0.2s;
-}
-
-.hero-buttons button:hover,
-.hero-buttons a:hover {
-    transform:
-        translateY(-2px);
-}
-
-.play-button {
-    background: #ffffff;
-    color: #000000;
-}
-
-.play-button:hover {
-    background: #dddddd;
-}
-
-.info-button {
-    background:
-        rgba(100, 100, 100, 0.65);
-
-    color: #ffffff;
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.25) !important;
-}
-
-.info-button:hover {
-    background:
-        rgba(130, 130, 130, 0.8);
 }
 
 
-/* =========================
+/* =========================================================
    PLAYER
-========================= */
+========================================================= */
 
 .player-section {
-    padding:
-        45px 7%
-        75px;
+    position: relative;
 
-    background:
-        linear-gradient(
-            180deg,
-            #050505,
-            #090909
-        );
+    margin-top: -30px;
+    padding: 0 5vw 60px;
+
+    z-index: 5;
 }
 
 .player-card {
-    max-width: 1100px;
-
+    width: min(1000px, 100%);
     margin: auto;
 
     display: grid;
+    grid-template-columns: 230px 1fr;
 
-    grid-template-columns:
-        330px 1fr;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.08),
+            rgba(255,255,255,0.025)
+        );
+
+    border: 1px solid rgba(255,255,255,0.12);
+
+    border-radius: 14px;
 
     overflow: hidden;
-
-    background: #101010;
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.07);
-
-    border-radius: 12px;
 
     box-shadow:
-        0 25px 80px
-        rgba(0, 0, 0, 0.60);
+        0 30px 80px rgba(0,0,0,0.4);
 }
 
-
-/* =========================
-   CAPA DO PLAYER
-========================= */
-
-.album-cover {
-    min-height: 330px;
-
+.player-cover {
     position: relative;
 
-    overflow: hidden;
-
-    background: #080808;
+    min-height: 230px;
 }
 
-.trevo-cover {
+.player-cover img {
     width: 100%;
     height: 100%;
 
-    min-height: 330px;
-
-    display: block;
-
     object-fit: cover;
-
-    object-position: center;
-
-    transition:
-        transform 0.5s ease;
 }
 
-.album-cover:hover .trevo-cover {
-    transform: scale(1.035);
+.player-overlay {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 3rem;
+
+    background: rgba(0,0,0,0.25);
+
+    opacity: 0;
+
+    transition: opacity 0.2s ease;
 }
 
-
-/* =========================
-   PLAYER CONTENT
-========================= */
-
-.player-content {
-    padding: 40px;
+.player-cover:hover .player-overlay {
+    opacity: 1;
 }
 
-.small-label {
+.player-info {
+    padding: 30px;
+}
+
+.player-overline {
     color: #e50914;
 
-    font-size: 10px;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
 
-    font-weight: bold;
-
-    letter-spacing: 2px;
+    margin-bottom: 8px;
 }
 
-.song-info h2 {
-    margin-top: 8px;
-
-    font-size: 31px;
+.player-info h2 {
+    font-size: 2rem;
+    margin-bottom: 4px;
 }
 
-.song-info p {
-    margin-top: 8px;
-
-    color: #999999;
-
-    line-height: 1.5;
+.player-info > p:not(.player-overline) {
+    color: #999;
 }
-
-
-/* =========================
-   PROGRESSO
-========================= */
 
 .progress-area {
-    display: grid;
-
-    grid-template-columns:
-        40px 1fr 40px;
-
-    align-items: center;
-
-    gap: 10px;
-
-    margin-top: 45px;
-
-    color: #777777;
-
-    font-size: 11px;
+    margin-top: 28px;
 }
 
-input[type="range"] {
+#progressBar {
     width: 100%;
-
     accent-color: #e50914;
-
-    cursor: pointer;
 }
 
-
-/* =========================
-   CONTROLES
-========================= */
-
-.controls {
+.time-row {
     display: flex;
+    justify-content: space-between;
 
+    margin-top: 5px;
+
+    color: #888;
+    font-size: 0.7rem;
+}
+
+.player-controls {
+    display: flex;
     align-items: center;
     justify-content: center;
 
-    gap: 28px;
+    gap: 20px;
 
-    margin-top: 25px;
+    margin-top: 18px;
 }
 
-.controls button {
+.player-controls button {
     border: none;
-
     background: transparent;
 
-    color: #ffffff;
+    color: #aaa;
 
-    font-size: 20px;
-
-    cursor: pointer;
-
-    transition: 0.2s;
+    font-size: 1.5rem;
 }
 
-.controls button:hover {
-    color: #e50914;
-
-    transform:
-        scale(1.08);
+.player-controls button:hover {
+    color: white;
 }
 
-.controls .main-play {
-    width: 60px;
-    height: 60px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.player-controls .main-play {
+    width: 52px;
+    height: 52px;
 
     border-radius: 50%;
 
-    background: #ffffff;
+    background: white;
+    color: #090a0f;
 
-    color: #000000;
-
-    font-size: 20px;
-}
-
-.controls .main-play:hover {
-    background: #e50914;
-    color: #ffffff;
+    font-size: 1rem;
 }
 
 
-/* =========================
-   VOLUME
-========================= */
+/* =========================================================
+   SEÇÕES
+========================================================= */
 
-.volume {
-    max-width: 210px;
-
-    margin:
-        25px auto 0;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-}
-
-
-/* =========================
-   MEMÓRIAS
-========================= */
-
-.about {
-    padding:
-        85px 7%;
-
-    background: #050505;
+.section {
+    padding: 60px 5vw;
 }
 
 .section-title {
-    max-width: 1100px;
-
-    margin: auto;
-}
-
-.section-title span {
-    color: #e50914;
-
-    font-size: 11px;
-
-    font-weight: bold;
-
-    letter-spacing: 2px;
+    width: min(1100px, 100%);
+    margin: 0 auto 28px;
 }
 
 .section-title h2 {
-    margin-top: 10px;
-
-    font-size: 31px;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
 }
 
-.cards {
-    max-width: 1100px;
-
-    margin:
-        35px auto 0;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
-    gap: 15px;
+.section-title p {
+    color: #777;
+    margin-top: 8px;
 }
 
-.memory-card {
-    min-height: 195px;
+.section-label {
+    color: #e50914 !important;
 
-    padding: 25px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
 
-    background: #111111;
+    font-size: 0.65rem;
+}
+
+
+/* =========================================================
+   CARDS MODERNOS
+========================================================= */
+
+.memory-row {
+    width: min(1100px, 100%);
+    margin: auto;
+
+    display: flex;
+    gap: 10px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding: 3px 0 15px;
+
+    scroll-snap-type: x mandatory;
+
+    scrollbar-width: none;
+}
+
+.memory-row::-webkit-scrollbar {
+    display: none;
+}
+
+.modern-card {
+    flex: 0 0 330px;
+
+    min-height: 155px;
+
+    scroll-snap-align: start;
+
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 22px;
 
     border-radius: 8px;
 
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255,255,255,0.10);
 
-    transition: 0.25s;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.055),
+            rgba(255,255,255,0.018)
+        );
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        background 0.25s ease;
 }
 
-.memory-card:hover {
-    background: #181818;
+.modern-card:hover {
+    transform: translateY(-4px);
 
-    transform:
-        translateY(-5px);
+    border-color: rgba(229,9,20,0.5);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(229,9,20,0.09),
+            rgba(255,255,255,0.02)
+        );
 }
 
-.card-icon {
-    font-size: 30px;
+.card-symbol {
+    flex: 0 0 76px;
+
+    width: 76px;
+    height: 76px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 2rem;
+
+    border: 1px solid rgba(255,255,255,0.12);
+
+    background: rgba(0,0,0,0.28);
+
+    filter: grayscale(0.1);
 }
 
-.coca {
+.card-symbol.coca {
     color: #e50914;
 }
 
-.memory-card h3 {
-    margin-top: 18px;
-
-    font-size: 18px;
+.card-content {
+    min-width: 0;
 }
 
-.memory-card p {
-    margin-top: 9px;
+.card-content h3 {
+    font-size: 1.2rem;
 
-    color: #999999;
+    margin-bottom: 8px;
+}
 
-    font-size: 14px;
+.card-content p {
+    color: #999;
 
-    line-height: 1.5;
+    font-size: 0.88rem;
+    line-height: 1.4;
 }
 
 
-/* =========================
-   MENSAGEM FINAL
-========================= */
+/* =========================================================
+   MEMÓRIAS
+========================================================= */
 
-.final-message {
-    padding:
-        130px 7%;
+.memories-section {
+    padding: 100px 5vw;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #08090d,
+            #0c0d12
+        );
+}
+
+.memory-list {
+    width: min(850px, 100%);
+    margin: 60px auto 0;
+}
+
+.memory-item {
+    display: grid;
+
+    grid-template-columns: 70px 1fr;
+
+    gap: 25px;
+
+    padding: 30px 0;
+
+    border-bottom:
+        1px solid rgba(255,255,255,0.08);
+}
+
+.memory-number {
+    color: #e50914;
+
+    font-size: 0.75rem;
+    font-weight: 700;
+
+    padding-top: 5px;
+}
+
+.memory-item h3 {
+    font-size: 1.35rem;
+    margin-bottom: 8px;
+}
+
+.memory-item p {
+    color: #999;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   MENSAGEM
+========================================================= */
+
+.message-section {
+    padding: 120px 5vw;
 
     text-align: center;
+}
+
+.message-box {
+    width: min(700px, 100%);
+    margin: auto;
+}
+
+.message-symbol {
+    color: #e50914;
+
+    font-size: 1.4rem;
+
+    margin-bottom: 25px;
+}
+
+.message-label {
+    color: #777;
+
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+
+    margin-bottom: 22px;
+}
+
+.message-box h2 {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+
+    line-height: 1;
+
+    letter-spacing: -3px;
+
+    margin-bottom: 30px;
+}
+
+.message-box p:last-child {
+    color: #999;
+
+    max-width: 550px;
+    margin: auto;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   MENSAGEM SECRETA
+========================================================= */
+
+.secret-section {
+    min-height: 75vh;
+    min-height: 75svh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 100px 5vw;
 
     background:
         radial-gradient(
-            circle,
-            rgba(229, 9, 20, 0.18),
-            transparent 55%
+            circle at center,
+            rgba(229,9,20,0.10),
+            transparent 45%
         ),
-        #050505;
+        #07080b;
 }
 
-.final-content > span {
+.secret-content {
+    width: min(600px, 100%);
+
+    text-align: center;
+}
+
+.secret-icon {
+    font-size: 2.5rem;
+
+    margin-bottom: 25px;
+
+    filter: grayscale(1);
+}
+
+.secret-label {
     color: #e50914;
 
-    font-size: 10px;
+    font-size: 0.65rem;
+    letter-spacing: 4px;
 
-    font-weight: bold;
-
-    letter-spacing: 3px;
+    margin-bottom: 18px;
 }
 
-.final-message h2 {
-    max-width: 750px;
+.secret-content h2 {
+    font-size: clamp(2rem, 7vw, 4rem);
 
-    margin:
-        18px auto 0;
+    line-height: 1;
 
-    font-size:
-        clamp(30px, 5vw, 55px);
+    letter-spacing: -2px;
 
-    line-height: 1.05;
+    margin-bottom: 25px;
 }
 
-.final-message p {
-    margin-top: 15px;
+.secret-content > p:not(.secret-label):not(.secret-highlight) {
+    color: #999;
 
-    color: #999999;
-
-    font-size: 18px;
+    line-height: 1.7;
 }
 
-.final-logo {
-    margin-top: 35px;
+.secret-divider {
+    width: 50px;
+    height: 1px;
+
+    margin: 30px auto;
+
+    background: #e50914;
 }
 
-.final-logo img {
-    width: 150px;
+.secret-highlight {
+    color: white;
 
-    opacity: 0.9;
+    font-size: 1.1rem;
+
+    line-height: 1.7;
 }
 
 
-/* =========================
+/* =========================================================
    FOOTER
-========================= */
+========================================================= */
 
-footer {
-    padding:
-        50px 7%;
+.footer {
+    padding: 60px 5vw;
 
     text-align: center;
 
-    background: #000000;
+    border-top:
+        1px solid rgba(255,255,255,0.07);
 
-    color: #777777;
+    color: #555;
 }
 
 .footer-logo {
-    width: 130px;
+    font-size: 1.6rem;
 
-    max-width: 60%;
+    font-weight: 800;
+
+    color: white;
+
+    margin-bottom: 10px;
 }
 
-footer p {
-    margin-top: 12px;
+.footer-logo span {
+    color: #e50914;
 }
 
-footer small {
-    display: block;
+.footer p {
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+}
 
-    margin-top: 20px;
-
-    color: #444444;
+.footer small {
+    font-size: 0.65rem;
 }
 
 
-/* ==================================================
-   TABLET / CELULAR
-================================================== */
+/* =========================================================
+   ANIMAÇÕES
+========================================================= */
 
-@media (max-width: 800px) {
+@keyframes introEnter {
 
-    /* NAVBAR */
-
-    .navbar {
-        height: 62px;
-
-        padding:
-            0 20px;
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
 
-    .logo {
-        width: 115px;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 
-    .navbar nav {
-        display: none;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .header {
+        height: 65px;
+        padding: 0 20px;
     }
 
+    .brand {
+        font-size: 1.45rem;
+    }
 
-    /* HERO */
+    .header-birthday {
+        font-size: 0.5rem;
+        letter-spacing: 2px;
+    }
 
     .hero {
-        min-height: 680px;
+        min-height: 76vh;
+        min-height: 76svh;
 
         padding:
-            370px 25px 60px;
-
-        align-items: flex-start;
+            100px 20px
+            55px;
     }
 
-
-    /*
-       AQUI ESTÁ A PRINCIPAL CORREÇÃO.
-
-       No celular a imagem NÃO usa cover.
-       Ela mantém a proporção original
-       e ocupa a largura da tela.
-    */
-
     .hero-background {
-        position: absolute;
-
-        top: 62px;
-        left: 0;
-        right: 0;
-
-        height: 380px;
-
         background:
             linear-gradient(
-                180deg,
-                rgba(5, 5, 5, 0.00) 0%,
-                rgba(5, 5, 5, 0.08) 35%,
-                rgba(5, 5, 5, 0.50) 72%,
-                #050505 100%
+                to top,
+                #08090d 5%,
+                rgba(8,9,13,0.7) 55%,
+                rgba(8,9,13,0.35) 100%
             ),
             url("assets/capa-trevo.png");
 
-        background-size:
-            100% auto;
-
-        background-repeat:
-            no-repeat;
-
-        background-position:
-            center top;
-
-        transform: none;
-    }
-
-    .hero-background::after {
-        background:
-            linear-gradient(
-                0deg,
-                #050505 0%,
-                transparent 50%
-            );
-    }
-
-
-    /* TEXTO DO HERO */
-
-    .hero-content {
-        max-width: 100%;
-
-        width: 100%;
+        background-size: cover;
+        background-position: center;
     }
 
     .hero h1 {
-        font-size: 55px;
-
-        letter-spacing: -2px;
+        font-size: clamp(3rem, 16vw, 5rem);
+        letter-spacing: -3px;
     }
 
-    .hero h1 span {
-        font-size: 40px;
+    .hero-description {
+        font-size: 0.92rem;
     }
-
-    .hero p {
-        font-size: 16px;
-
-        max-width: 100%;
-    }
-
-
-    /* BOTÕES */
 
     .hero-buttons {
-        flex-direction: column;
-
-        max-width: 250px;
+        width: 100%;
     }
 
-    .hero-buttons button,
-    .hero-buttons a {
-        text-align: center;
+    .hero-buttons button {
+        flex: 1;
     }
 
-
-    /* PLAYER */
+    .player-section {
+        padding: 0 15px 40px;
+    }
 
     .player-card {
-        grid-template-columns: 1fr;
+        display: block;
     }
 
-    .album-cover {
-        min-height: auto;
-
-        aspect-ratio: 1 / 1;
-    }
-
-    .trevo-cover {
+    .player-cover {
+        height: 260px;
         min-height: 0;
-
-        aspect-ratio: 1 / 1;
-
-        object-fit: cover;
     }
 
+    .player-info {
+        padding: 22px;
+    }
 
-    /* MEMÓRIAS */
+    .player-info h2 {
+        font-size: 1.6rem;
+    }
 
-    .cards {
-        grid-template-columns:
-            repeat(2, 1fr);
+    .section {
+        padding: 45px 15px;
+    }
+
+    .modern-card {
+        flex-basis: 290px;
+        min-height: 125px;
+
+        padding: 17px;
+
+        gap: 15px;
+    }
+
+    .card-symbol {
+        flex-basis: 60px;
+
+        width: 60px;
+        height: 60px;
+
+        font-size: 1.55rem;
+    }
+
+    .card-content h3 {
+        font-size: 1.05rem;
+    }
+
+    .card-content p {
+        font-size: 0.78rem;
+    }
+
+    .memories-section {
+        padding: 75px 20px;
+    }
+
+    .memory-item {
+        grid-template-columns: 45px 1fr;
+        gap: 15px;
+    }
+
+    .message-section {
+        padding: 80px 20px;
+    }
+
+    .message-box h2 {
+        font-size: clamp(2.4rem, 13vw, 4rem);
+    }
+
+    .secret-section {
+        min-height: 70vh;
+        min-height: 70svh;
+
+        padding: 80px 20px;
+    }
+
+    .secret-content h2 {
+        font-size: clamp(2.2rem, 12vw, 3.8rem);
+    }
+
+    .intro-content {
+        width: calc(100% - 40px);
+    }
+
+    .intro-logo {
+        font-size: 3.5rem;
     }
 
 }
 
 
-/* ==================================================
-   CELULARES PEQUENOS
-================================================== */
+/* =========================================================
+   TELAS MUITO PEQUENAS
+========================================================= */
 
-@media (max-width: 500px) {
+@media (max-width: 380px) {
 
-    .hero {
-        min-height: 665px;
-
-        padding:
-            350px 20px 50px;
+    .modern-card {
+        flex-basis: 275px;
     }
 
-    .hero-background {
-        height: 360px;
+    .hero-buttons {
+        flex-direction: column;
     }
 
-    .hero h1 {
-        font-size: 49px;
-    }
-
-    .hero h1 span {
-        font-size: 37px;
-    }
-
-    .hero p {
-        font-size: 15px;
-
-        line-height: 1.5;
-    }
-
-
-    .player-section {
-        padding:
-            30px 15px
-            60px;
-    }
-
-    .player-content {
-        padding:
-            28px 20px;
-    }
-
-
-    .progress-area {
-        grid-template-columns:
-            35px 1fr 35px;
-
-        gap: 6px;
-    }
-
-
-    .controls {
-        gap: 22px;
-    }
-
-
-    .about {
-        padding:
-            65px 20px;
-    }
-
-
-    .section-title h2 {
-        font-size: 27px;
-    }
-
-
-    .cards {
-        grid-template-columns: 1fr;
-    }
-
-
-    .memory-card {
-        min-height: auto;
-    }
-
-
-    .final-message {
-        padding:
-            100px 25px;
+    .hero-buttons button {
+        width: 100%;
     }
 
 }
