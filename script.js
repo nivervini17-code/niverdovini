@@ -1,24 +1,26 @@
-// =========================
-// ViniFlix Player
-// =========================
+/* =========================================================
+   ELEMENTOS
+========================================================= */
 
-const audio =
-    document.getElementById("audio");
+const introScreen = document.getElementById("introScreen");
+const mainSite = document.getElementById("mainSite");
 
-const playPauseButton =
-    document.getElementById("playPause");
+const startButton = document.getElementById("startButton");
 
-const heroPlay =
-    document.getElementById("heroPlay");
+const music = document.getElementById("music");
 
-const progress =
-    document.getElementById("progress");
+const playButton = document.getElementById("playButton");
+const playIcon = document.getElementById("playIcon");
+const playText = document.getElementById("playText");
 
-const volume =
-    document.getElementById("volume");
+const mainPlayButton =
+    document.getElementById("mainPlayButton");
 
-const volumeIcon =
-    document.getElementById("volumeIcon");
+const playerOverlay =
+    document.getElementById("playerOverlay");
+
+const progressBar =
+    document.getElementById("progressBar");
 
 const currentTime =
     document.getElementById("currentTime");
@@ -26,17 +28,51 @@ const currentTime =
 const duration =
     document.getElementById("duration");
 
+const backButton =
+    document.getElementById("backButton");
 
-// =========================
-// FORMATAR TEMPO
-// =========================
+const forwardButton =
+    document.getElementById("forwardButton");
+
+const scrollMemories =
+    document.getElementById("scrollMemories");
+
+const memoryCard =
+    document.getElementById("memoryCard");
+
+const backToBoxButton =
+    document.getElementById("backToBoxButton");
+
+
+/* =========================================================
+   TELA DE ABERTURA
+========================================================= */
+
+startButton.addEventListener("click", () => {
+
+    introScreen.classList.add("hide");
+
+    setTimeout(() => {
+
+        mainSite.classList.remove("hidden");
+
+        window.scrollTo({
+            top: 0,
+            behavior: "instant"
+        });
+
+    }, 700);
+
+});
+
+
+/* =========================================================
+   FORMATA TEMPO
+========================================================= */
 
 function formatTime(seconds) {
 
-    if (
-        !Number.isFinite(seconds) ||
-        seconds < 0
-    ) {
+    if (!Number.isFinite(seconds)) {
         return "0:00";
     }
 
@@ -44,263 +80,330 @@ function formatTime(seconds) {
         Math.floor(seconds / 60);
 
     const remainingSeconds =
-        Math.floor(seconds % 60);
-
-    return (
-        `${minutes}:` +
-        `${remainingSeconds
+        Math.floor(seconds % 60)
             .toString()
-            .padStart(2, "0")}`
-    );
+            .padStart(2, "0");
+
+    return `${minutes}:${remainingSeconds}`;
+
 }
 
 
-// =========================
-// PLAY / PAUSE
-// =========================
+/* =========================================================
+   ATUALIZA PLAYER
+========================================================= */
 
-function togglePlay() {
+function updatePlayer() {
 
-    if (audio.paused) {
+    const isPlaying =
+        !music.paused;
 
-        audio
-            .play()
+    if (isPlaying) {
+
+        playIcon.textContent = "❚❚";
+        playText.textContent = "Pausar";
+
+        mainPlayButton.textContent = "❚❚";
+        playerOverlay.textContent = "❚❚";
+
+    } else {
+
+        playIcon.textContent = "▶";
+        playText.textContent = "Ouvir";
+
+        mainPlayButton.textContent = "▶";
+        playerOverlay.textContent = "▶";
+
+    }
+
+}
+
+
+/* =========================================================
+   PLAY / PAUSE
+========================================================= */
+
+function toggleMusic() {
+
+    if (music.paused) {
+
+        music.play()
+            .then(() => {
+                updatePlayer();
+            })
             .catch(() => {
 
-                console.log(
-                    "O navegador bloqueou a reprodução automática."
+                alert(
+                    "Coloque o arquivo trevo-tu.mp3 dentro da pasta assets."
                 );
 
             });
 
     } else {
 
-        audio.pause();
+        music.pause();
 
     }
+
+    updatePlayer();
 
 }
 
 
-// =========================
-// ATUALIZAR BOTÕES
-// =========================
+/* =========================================================
+   BOTÕES DE PLAY
+========================================================= */
 
-function updatePlayButton() {
-
-    if (audio.paused) {
-
-        playPauseButton.textContent =
-            "▶";
-
-        heroPlay.textContent =
-            "▶ Ouvir";
-
-    } else {
-
-        playPauseButton.textContent =
-            "⏸";
-
-        heroPlay.textContent =
-            "⏸ Pausar";
-
-    }
-
-}
-
-
-// =========================
-// EVENTOS
-// =========================
-
-playPauseButton.addEventListener(
+playButton.addEventListener(
     "click",
-    togglePlay
+    toggleMusic
 );
 
-heroPlay.addEventListener(
+mainPlayButton.addEventListener(
     "click",
-    togglePlay
+    toggleMusic
 );
 
-audio.addEventListener(
+playerOverlay.addEventListener(
+    "click",
+    toggleMusic
+);
+
+
+/* =========================================================
+   EVENTOS DO ÁUDIO
+========================================================= */
+
+music.addEventListener(
     "play",
-    updatePlayButton
+    updatePlayer
 );
 
-audio.addEventListener(
+music.addEventListener(
     "pause",
-    updatePlayButton
+    updatePlayer
+);
+
+music.addEventListener(
+    "ended",
+    () => {
+
+        updatePlayer();
+
+        progressBar.value = 0;
+
+    }
 );
 
 
-// =========================
-// METADADOS DA MÚSICA
-// =========================
+/* =========================================================
+   DURAÇÃO
+========================================================= */
 
-audio.addEventListener(
+music.addEventListener(
     "loadedmetadata",
     () => {
 
         duration.textContent =
-            formatTime(audio.duration);
+            formatTime(music.duration);
 
     }
 );
 
 
-// =========================
-// PROGRESSO
-// =========================
+/* =========================================================
+   PROGRESSO
+========================================================= */
 
-audio.addEventListener(
+music.addEventListener(
     "timeupdate",
     () => {
 
-        currentTime.textContent =
-            formatTime(audio.currentTime);
-
-        if (audio.duration > 0) {
-
-            const percentage =
-                (
-                    audio.currentTime /
-                    audio.duration
-                ) * 100;
-
-            progress.value =
-                percentage;
-
-        }
-
-    }
-);
-
-
-// =========================
-// ARRASTAR PROGRESSO
-// =========================
-
-progress.addEventListener(
-    "input",
-    () => {
-
-        if (!audio.duration) {
+        if (!music.duration) {
             return;
         }
 
-        audio.currentTime =
-            (
-                Number(progress.value) /
-                100
-            ) * audio.duration;
+        const percentage =
+            (music.currentTime / music.duration) * 100;
+
+        progressBar.value = percentage;
+
+        currentTime.textContent =
+            formatTime(music.currentTime);
 
     }
 );
 
 
-// =========================
-// VOLUME
-// =========================
+/* =========================================================
+   ARRASTAR PROGRESSO
+========================================================= */
 
-volume.addEventListener(
+progressBar.addEventListener(
     "input",
     () => {
 
-        const value =
-            Number(volume.value);
-
-        audio.volume = value;
-
-        if (value === 0) {
-
-            volumeIcon.textContent =
-                "🔇";
-
-        } else if (value < 0.5) {
-
-            volumeIcon.textContent =
-                "🔉";
-
-        } else {
-
-            volumeIcon.textContent =
-                "🔊";
-
+        if (!music.duration) {
+            return;
         }
+
+        const newTime =
+            (progressBar.value / 100) *
+            music.duration;
+
+        music.currentTime = newTime;
 
     }
 );
 
 
-// =========================
-// BOTÃO ANTERIOR
-// =========================
+/* =========================================================
+   VOLTAR 10 SEGUNDOS
+========================================================= */
 
-document
-    .getElementById("previous")
-    .addEventListener(
-        "click",
-        () => {
+backButton.addEventListener(
+    "click",
+    () => {
 
-            audio.currentTime = 0;
-
-        }
-    );
-
-
-// =========================
-// BOTÃO PRÓXIMO
-// =========================
-
-document
-    .getElementById("next")
-    .addEventListener(
-        "click",
-        () => {
-
-            audio.currentTime = 0;
-
-            if (!audio.paused) {
-
-                audio.play();
-
-            }
-
-        }
-    );
-
-
-// =========================
-// TECLADO
-// =========================
-
-document.addEventListener(
-    "keydown",
-    (event) => {
-
-        if (
-            event.code === "Space" &&
-            event.target.tagName !== "INPUT" &&
-            event.target.tagName !== "BUTTON"
-        ) {
-
-            event.preventDefault();
-
-            togglePlay();
-
-        }
+        music.currentTime =
+            Math.max(
+                0,
+                music.currentTime - 10
+            );
 
     }
 );
 
 
-// =========================
-// INICIALIZAÇÃO
-// =========================
+/* =========================================================
+   AVANÇAR 10 SEGUNDOS
+========================================================= */
 
-audio.volume = 1;
+forwardButton.addEventListener(
+    "click",
+    () => {
 
-progress.value = 0;
+        music.currentTime =
+            Math.min(
+                music.duration || 0,
+                music.currentTime + 10
+            );
 
-updatePlayButton();
+    }
+);
+
+
+/* =========================================================
+   IR PARA MEMÓRIAS
+========================================================= */
+
+function goToMemories() {
+
+    const memories =
+        document.getElementById("memories");
+
+    if (!memories) {
+        return;
+    }
+
+    memories.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+}
+
+scrollMemories.addEventListener(
+    "click",
+    goToMemories
+);
+
+memoryCard.addEventListener(
+    "click",
+    goToMemories
+);
+
+
+/* =========================================================
+   BOTÃO VOLTE PARA A CAIXA
+========================================================= */
+
+backToBoxButton.addEventListener(
+    "click",
+    () => {
+
+        /*
+         * Não abre outra página.
+         *
+         * A intenção é que essa mensagem seja a pista
+         * para ele voltar fisicamente para a caixa.
+         */
+
+        backToBoxButton.textContent =
+            "📦 Agora é com você.";
+
+        backToBoxButton.style.pointerEvents =
+            "none";
+
+    }
+);
+
+
+/* =========================================================
+   EFEITO DE ENTRADA DOS CARDS
+========================================================= */
+
+const cards =
+    document.querySelectorAll(".modern-card");
+
+const observer =
+    new IntersectionObserver(
+        (entries) => {
+
+            entries.forEach(
+                (entry) => {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.style.opacity = "1";
+                        entry.target.style.transform =
+                            "translateY(0)";
+
+                        observer.unobserve(
+                            entry.target
+                        );
+
+                    }
+
+                }
+            );
+
+        },
+        {
+            threshold: 0.15
+        }
+    );
+
+
+cards.forEach(
+    (card) => {
+
+        card.style.opacity = "0";
+
+        card.style.transform =
+            "translateY(18px)";
+
+        card.style.transition =
+            "opacity 0.6s ease, transform 0.6s ease";
+
+        observer.observe(card);
+
+    }
+);
+
+
+/* =========================================================
+   GARANTE ESTADO INICIAL
+========================================================= */
+
+updatePlayer();
