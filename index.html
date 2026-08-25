@@ -1,124 +1,113 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="theme-color"
-        content="#050505"
-    >
+    <meta name="theme-color" content="#090a0f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
     <title>ViniFlix</title>
 
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
+    <!-- =====================================================
+         TELA DE ABERTURA
+    ====================================================== -->
 
-    <header class="navbar">
+    <section id="introScreen" class="intro-screen">
 
-        <a
-            href="#inicio"
-            class="brand"
-        >
-            <img
-                src="assets/logo-viniflix.png"
-                alt="ViniFlix"
-                class="logo"
-            >
-        </a>
+        <div class="intro-content">
 
-        <nav>
+            <div class="intro-logo">
+                <span class="logo-v">V</span>iniFlix
+            </div>
 
-            <a href="#inicio">
-                Início
-            </a>
+            <div class="intro-line"></div>
 
-            <a href="#musica">
-                Música
-            </a>
+            <p class="intro-small">
+                UMA EXPERIÊNCIA ESPECIAL
+            </p>
 
-            <a href="#memorias">
-                Memórias
-            </a>
+            <h1>
+                Feliz aniversário,<br>
+                <span>Vini.</span>
+            </h1>
 
-        </nav>
+            <p class="intro-text">
+                Algumas coisas foram preparadas especialmente
+                para você.
+            </p>
 
-        <div class="profile">
-            V
+            <button id="startButton" class="primary-button">
+                <span>▶</span>
+                Entrar no ViniFlix
+            </button>
+
         </div>
 
-    </header>
+    </section>
 
 
-    <main>
+    <!-- =====================================================
+         SITE PRINCIPAL
+    ====================================================== -->
 
-        <!-- HERO -->
+    <main id="mainSite" class="main-site hidden">
 
-        <section
-            class="hero"
-            id="inicio"
-        >
+        <!-- HEADER -->
+
+        <header class="header">
+
+            <div class="brand">
+                <span class="brand-v">V</span>iniFlix
+            </div>
+
+            <div class="header-birthday">
+                EDIÇÃO ESPECIAL
+            </div>
+
+        </header>
+
+
+        <!-- HERO / TREVO -->
+
+        <section class="hero">
 
             <div class="hero-background"></div>
 
             <div class="hero-content">
 
-                <span class="exclusive">
-                    ● VINIFLIX ORIGINAL
-                </span>
+                <p class="hero-label">
+                    UMA PRODUÇÃO ESPECIAL
+                </p>
 
                 <h1>
-                    TREVO
-                    <span>(Tu)</span>
+                    Trevo (Tu)
                 </h1>
 
-                <div class="meta">
-
-                    <span>
-                        2026
-                    </span>
-
-                    <span>
-                        Especial
-                    </span>
-
-                    <span>
-                        1 música
-                    </span>
-
-                </div>
-
-                <p>
-                    Uma pequena lembrança feita especialmente para você.
+                <p class="hero-description">
+                    Uma música que, por algum motivo,
+                    acabou lembrando você.
                 </p>
 
                 <div class="hero-buttons">
 
-                    <button
-                        class="play-button"
-                        id="heroPlay"
-                    >
-                        ▶ Ouvir
+                    <button id="playButton" class="primary-button">
+                        <span id="playIcon">▶</span>
+                        <span id="playText">Ouvir</span>
                     </button>
 
-                    <a
-                        href="#sobre"
-                        class="info-button"
-                    >
-                        ⓘ Mais informações
-                    </a>
+                    <button
+                        id="scrollMemories"
+                        class="secondary-button">
+                        <span>＋</span>
+                        Memórias
+                    </button>
 
                 </div>
 
@@ -129,204 +118,246 @@
 
         <!-- PLAYER -->
 
-        <section
-            class="player-section"
-            id="musica"
-        >
+        <section class="player-section">
 
             <div class="player-card">
 
-                <div class="album-cover">
+                <div class="player-cover">
 
                     <img
                         src="assets/capa-trevo.png"
-                        alt="Capa da música Trevo (Tu)"
-                        class="trevo-cover"
-                    >
+                        alt="Capa Trevo">
+
+                    <div
+                        id="playerOverlay"
+                        class="player-overlay">
+                        ▶
+                    </div>
 
                 </div>
 
+                <div class="player-info">
 
-                <div class="player-content">
+                    <p class="player-overline">
+                        ViniFlix Original
+                    </p>
 
-                    <div class="song-info">
+                    <h2>
+                        Trevo (Tu)
+                    </h2>
 
-                        <span class="small-label">
-                            TOCANDO AGORA
-                        </span>
+                    <p>
+                        Anavitória
+                    </p>
 
-                        <h2>
-                            Trevo (Tu)
-                        </h2>
+                    <div class="progress-area">
+
+                        <input
+                            id="progressBar"
+                            type="range"
+                            min="0"
+                            max="100"
+                            value="0">
+
+                        <div class="time-row">
+                            <span id="currentTime">
+                                0:00
+                            </span>
+
+                            <span id="duration">
+                                0:00
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="player-controls">
+
+                        <button id="backButton">
+                            ↶
+                        </button>
+
+                        <button
+                            id="mainPlayButton"
+                            class="main-play">
+                            ▶
+                        </button>
+
+                        <button id="forwardButton">
+                            ↷
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             CARDS MODERNOS
+        ================================================== -->
+
+        <section class="section">
+
+            <div class="section-title">
+
+                <h2>
+                    Algumas coisas sobre você
+                </h2>
+
+                <p>
+                    Porque pequenas coisas também contam histórias.
+                </p>
+
+            </div>
+
+
+            <div class="memory-row">
+
+
+                <!-- FILMES -->
+
+                <article class="modern-card">
+
+                    <div class="card-symbol">
+                        🎬
+                    </div>
+
+                    <div class="card-content">
+
+                        <h3>
+                            Filmes
+                        </h3>
 
                         <p>
-                            Uma música escolhida especialmente para você.
+                            Pelos filmes que você já me indicou.
                         </p>
 
                     </div>
 
-
-                    <div class="progress-area">
-
-                        <span id="currentTime">
-                            0:00
-                        </span>
-
-                        <input
-                            type="range"
-                            id="progress"
-                            min="0"
-                            max="100"
-                            value="0"
-                        >
-
-                        <span id="duration">
-                            0:00
-                        </span>
-
-                    </div>
-
-
-                    <div class="controls">
-
-                        <button
-                            id="previous"
-                            aria-label="Anterior"
-                        >
-                            ⏮
-                        </button>
-
-                        <button
-                            class="main-play"
-                            id="playPause"
-                            aria-label="Reproduzir"
-                        >
-                            ▶
-                        </button>
-
-                        <button
-                            id="next"
-                            aria-label="Próxima"
-                        >
-                            ⏭
-                        </button>
-
-                    </div>
-
-
-                    <div class="volume">
-
-                        <span id="volumeIcon">
-                            🔊
-                        </span>
-
-                        <input
-                            type="range"
-                            id="volume"
-                            min="0"
-                            max="1"
-                            step="0.01"
-                            value="1"
-                        >
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- SOBRE / MEMÓRIAS -->
-
-        <section
-            class="about"
-            id="sobre"
-        >
-
-            <div class="section-title">
-
-                <span>
-                    VINIFLIX ORIGINAL
-                </span>
-
-                <h2>
-                    Porque você pode gostar deste título
-                </h2>
-
-            </div>
-
-
-            <div
-                class="cards"
-                id="memorias"
-            >
-
-                <article class="memory-card">
-
-                    <div class="card-icon">
-                        🎬
-                    </div>
-
-                    <h3>
-                        Filmes
-                    </h3>
-
-                    <p>
-                        Obrigado pelos filmes que você já me indicou! Sem dúvidas não tenho o que reclamar de nenhum kkk, na verdade quem tem bom gosto tem neh? kkkk
-                    </p>
-
                 </article>
 
 
-                <article class="memory-card">
+                <!-- VÔLEI -->
 
-                    <div class="card-icon">
+                <article class="modern-card">
+
+                    <div class="card-symbol">
                         🏐
                     </div>
 
-                    <h3>
-                        Vôlei
-                    </h3>
+                    <div class="card-content">
 
-                    <p>
-                        Porque algumas histórias também acontecem fora da tela, e apesar de ter sido uma luta pra você acordar nas quintas, o vôlei sem você nas quartas não seria o mesmo. kkk
-                    </p>
+                        <h3>
+                            Vôlei
+                        </h3>
+
+                        <p>
+                            Porque algumas histórias também
+                            acontecem fora da tela.
+                        </p>
+
+                    </div>
 
                 </article>
 
 
-                <article class="memory-card">
+                <!-- COCA-COLA -->
 
-                    <div class="card-icon coca">
+                <article class="modern-card">
+
+                    <div class="card-symbol coca">
                         🥤
                     </div>
 
-                    <h3>
-                        Coca-Cola
-                    </h3>
+                    <div class="card-content">
 
-                    <p>
-                        Porque obviamente não poderia faltar a Coquinha gelada de cada dia né? Afinal acho que isso representa muito você. kkkkk.
-                    </p>
+                        <h3>
+                            Coca-Cola
+                        </h3>
+
+                        <p>
+                            Porque algumas coisas simplesmente
+                            não podem faltar.
+                        </p>
+
+                    </div>
 
                 </article>
 
 
-                <article class="memory-card">
+                <!-- GUMBALL -->
 
-                    <div class="card-icon">
-                        🧸
+                <article class="modern-card">
+
+                    <div class="card-symbol">
+                        💙
                     </div>
 
-                    <h3>
-                        Gumball & Darwin
-                    </h3>
+                    <div class="card-content">
 
-                    <p>
-                        Algumas referências simplesmente precisam estar aqui, pode parecer algo simples, mas teve um grande significado, afinal essa dulpa é muito foda.
-                    </p>
+                        <h3>
+                            Gumball
+                        </h3>
+
+                        <p>
+                            Porque algumas referências ficam
+                            mesmo nas pequenas coisas.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- DARWIN -->
+
+                <article class="modern-card">
+
+                    <div class="card-symbol">
+                        🧡
+                    </div>
+
+                    <div class="card-content">
+
+                        <h3>
+                            Darwin
+                        </h3>
+
+                        <p>
+                            Mais uma daquelas coisas que me
+                            fizeram lembrar de você.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- MEMÓRIAS -->
+
+                <article
+                    class="modern-card memory-card"
+                    id="memoryCard">
+
+                    <div class="card-symbol">
+                        ✦
+                    </div>
+
+                    <div class="card-content">
+
+                        <h3>
+                            Memórias
+                        </h3>
+
+                        <p>
+                            Pequenos momentos que ficaram.
+                        </p>
+
+                    </div>
 
                 </article>
 
@@ -335,72 +366,239 @@
         </section>
 
 
-        <!-- MENSAGEM FINAL -->
+        <!-- =================================================
+             MEMÓRIAS
+        ================================================== -->
 
-        <section class="final-message">
+        <section
+            id="memories"
+            class="memories-section">
 
-            <div class="final-content">
+            <div class="section-title">
 
-                <span>
-                    UMA PRODUÇÃO ESPECIAL
-                </span>
+                <p class="section-label">
+                    ViniFlix Memories
+                </p>
 
                 <h2>
-                    Algumas coisas merecem ser lembradas.
+                    Pequenas coisas.
                 </h2>
 
                 <p>
-                    E algumas pessoas também.
+                    Grandes lembranças.
                 </p>
 
-                <div class="final-logo">
+            </div>
 
-                    <img
-                        src="assets/logo-viniflix.png"
-                        alt="ViniFlix"
-                    >
+
+            <div class="memory-list">
+
+
+                <div class="memory-item">
+
+                    <div class="memory-number">
+                        01
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Os filmes
+                        </h3>
+
+                        <p>
+                            Algumas das coisas que ficaram foram
+                            justamente aquelas conversas simples,
+                            como quando você me indicava um filme.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="memory-item">
+
+                    <div class="memory-number">
+                        02
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            As conversas
+                        </h3>
+
+                        <p>
+                            Nem toda memória precisa de uma grande
+                            história. Às vezes uma conversa já basta.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="memory-item">
+
+                    <div class="memory-number">
+                        03
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Os pequenos detalhes
+                        </h3>
+
+                        <p>
+                            Coisas que talvez você nem lembrasse,
+                            mas que acabaram ficando comigo.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="memory-item">
+
+                    <div class="memory-number">
+                        04
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            A música
+                        </h3>
+
+                        <p>
+                            E talvez seja por isso que algumas músicas
+                            acabam tendo um significado diferente.
+                        </p>
+
+                    </div>
 
                 </div>
 
             </div>
 
         </section>
+
+
+        <!-- =================================================
+             MENSAGEM
+        ================================================== -->
+
+        <section class="message-section">
+
+            <div class="message-box">
+
+                <div class="message-symbol">
+                    ♥
+                </div>
+
+                <p class="message-label">
+                    UMA ÚLTIMA COISA
+                </p>
+
+                <h2>
+                    Algumas pessoas<br>
+                    são sorte.
+                </h2>
+
+                <p>
+                    E você é uma dessas pessoas que, de alguma forma,
+                    acabou deixando pequenas lembranças pelo caminho.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PISTA SECRETA
+        ================================================== -->
+
+        <section
+            id="secretMessage"
+            class="secret-section">
+
+            <div class="secret-content">
+
+                <div class="secret-icon">
+                    🔐
+                </div>
+
+                <p class="secret-label">
+                    CONTEÚDO EXCLUSIVO
+                </p>
+
+                <h2>
+                    Achou que tinha acabado?
+                </h2>
+
+                <p>
+                    Ainda existe uma última coisa escondida
+                    nessa história.
+                </p>
+
+                <div class="secret-divider"></div>
+
+                <p class="secret-highlight">
+                    Algumas coisas foram feitas
+                    para serem encontradas.
+                </p>
+
+                <button
+                    id="backToBoxButton"
+                    class="box-button">
+
+                    📦
+                    Volte para a caixa.
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer class="footer">
+
+            <div class="footer-logo">
+                <span>V</span>iniFlix
+            </div>
+
+            <p>
+                Uma edição especial feita para você.
+            </p>
+
+            <small>
+                © 2026 ViniFlix
+            </small>
+
+        </footer>
 
     </main>
 
 
-    <!-- FOOTER -->
-
-    <footer>
-
-        <img
-            src="assets/logo-viniflix.png"
-            alt="ViniFlix"
-            class="footer-logo"
-        >
-
-        <p>
-            Uma produção exclusiva para Vini.
-        </p>
-
-        <small>
-            © 2026 ViniFlix
-        </small>
-
-    </footer>
-
-
-    <!-- ÁUDIO -->
+    <!-- =====================================================
+         ÁUDIO
+    ====================================================== -->
 
     <audio
-        id="audio"
-        src="assets/musica.mp3"
-        preload="metadata"
-    ></audio>
+        id="music"
+        src="assets/trevo-tu.mp3"
+        preload="metadata">
+    </audio>
 
 
     <script src="script.js"></script>
 
 </body>
-
 </html>
