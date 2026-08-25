@@ -1,127 +1,84 @@
-/* =========================================================
-   ELEMENTOS
-========================================================= */
-
 const introScreen = document.getElementById("introScreen");
 const mainSite = document.getElementById("mainSite");
-
 const startButton = document.getElementById("startButton");
 
 const music = document.getElementById("music");
-
 const playButton = document.getElementById("playButton");
 const playIcon = document.getElementById("playIcon");
 const playText = document.getElementById("playText");
 
-const mainPlayButton =
-    document.getElementById("mainPlayButton");
+const mainPlayButton = document.getElementById("mainPlayButton");
+const playerOverlay = document.getElementById("playerOverlay");
 
-const playerOverlay =
-    document.getElementById("playerOverlay");
+const progressBar = document.getElementById("progressBar");
+const currentTime = document.getElementById("currentTime");
+const duration = document.getElementById("duration");
 
-const progressBar =
-    document.getElementById("progressBar");
+const backButton = document.getElementById("backButton");
+const forwardButton = document.getElementById("forwardButton");
 
-const currentTime =
-    document.getElementById("currentTime");
+const scrollMemories = document.getElementById("scrollMemories");
+const memoryCard = document.getElementById("memoryCard");
 
-const duration =
-    document.getElementById("duration");
-
-const backButton =
-    document.getElementById("backButton");
-
-const forwardButton =
-    document.getElementById("forwardButton");
-
-const scrollMemories =
-    document.getElementById("scrollMemories");
-
-const memoryCard =
-    document.getElementById("memoryCard");
-
-const backToBoxButton =
-    document.getElementById("backToBoxButton");
+const backToBoxButton = document.getElementById("backToBoxButton");
+const backToBoxText = document.getElementById("backToBoxText");
 
 
-/* =========================================================
-   TELA DE ABERTURA
-========================================================= */
+// ========================================
+// TELA DE ABERTURA
+// ========================================
 
 startButton.addEventListener("click", () => {
-
     introScreen.classList.add("hide");
 
     setTimeout(() => {
-
         mainSite.classList.remove("hidden");
 
         window.scrollTo({
             top: 0,
             behavior: "instant"
         });
-
     }, 700);
-
 });
 
 
-/* =========================================================
-   FORMATA TEMPO
-========================================================= */
+// ========================================
+// PLAYER
+// ========================================
 
 function formatTime(seconds) {
-
     if (!Number.isFinite(seconds)) {
         return "0:00";
     }
 
-    const minutes =
-        Math.floor(seconds / 60);
+    const minutes = Math.floor(seconds / 60);
 
-    const remainingSeconds =
-        Math.floor(seconds % 60)
-            .toString()
-            .padStart(2, "0");
+    const secondsPart = Math.floor(seconds % 60)
+        .toString()
+        .padStart(2, "0");
 
-    return `${minutes}:${remainingSeconds}`;
-
+    return `${minutes}:${secondsPart}`;
 }
 
-
-/* =========================================================
-   ATUALIZA PLAYER
-========================================================= */
 
 function updatePlayer() {
+    const isPlaying = !music.paused;
 
-    const isPlaying =
-        !music.paused;
+    playIcon.textContent = isPlaying ? "❚❚" : "▶";
 
-    if (isPlaying) {
+    playText.textContent = isPlaying
+        ? "Pausar"
+        : "Ouvir";
 
-        playIcon.textContent = "❚❚";
-        playText.textContent = "Pausar";
+    mainPlayButton.textContent = isPlaying
+        ? "❚❚"
+        : "▶";
 
-        mainPlayButton.textContent = "❚❚";
-        playerOverlay.textContent = "❚❚";
-
-    } else {
-
-        playIcon.textContent = "▶";
-        playText.textContent = "Ouvir";
-
-        mainPlayButton.textContent = "▶";
-        playerOverlay.textContent = "▶";
-
-    }
-
+    playerOverlay.textContent = isPlaying
+        ? "❚❚"
+        : "▶";
 }
 
-
-/* =========================================================
-   PLAY / PAUSE
-========================================================= */
 
 function toggleMusic() {
 
@@ -146,59 +103,45 @@ function toggleMusic() {
     }
 
     updatePlayer();
-
 }
 
 
-/* =========================================================
-   BOTÕES DE PLAY
-========================================================= */
-
+// Botão principal
 playButton.addEventListener(
     "click",
     toggleMusic
 );
 
+
+// Botão central do player
 mainPlayButton.addEventListener(
     "click",
     toggleMusic
 );
 
+
+// Overlay da capa
 playerOverlay.addEventListener(
     "click",
     toggleMusic
 );
 
 
-/* =========================================================
-   EVENTOS DO ÁUDIO
-========================================================= */
+// ========================================
+// EVENTOS DO ÁUDIO
+// ========================================
 
 music.addEventListener(
     "play",
     updatePlayer
 );
 
+
 music.addEventListener(
     "pause",
     updatePlayer
 );
 
-music.addEventListener(
-    "ended",
-    () => {
-
-        updatePlayer();
-
-        progressBar.value = 0;
-
-    }
-);
-
-
-/* =========================================================
-   DURAÇÃO
-========================================================= */
 
 music.addEventListener(
     "loadedmetadata",
@@ -211,9 +154,19 @@ music.addEventListener(
 );
 
 
-/* =========================================================
-   PROGRESSO
-========================================================= */
+music.addEventListener(
+    "ended",
+    () => {
+
+        updatePlayer();
+
+        progressBar.value = 0;
+
+        currentTime.textContent = "0:00";
+
+    }
+);
+
 
 music.addEventListener(
     "timeupdate",
@@ -223,10 +176,8 @@ music.addEventListener(
             return;
         }
 
-        const percentage =
+        progressBar.value =
             (music.currentTime / music.duration) * 100;
-
-        progressBar.value = percentage;
 
         currentTime.textContent =
             formatTime(music.currentTime);
@@ -235,9 +186,9 @@ music.addEventListener(
 );
 
 
-/* =========================================================
-   ARRASTAR PROGRESSO
-========================================================= */
+// ========================================
+// BARRA DE PROGRESSO
+// ========================================
 
 progressBar.addEventListener(
     "input",
@@ -247,19 +198,17 @@ progressBar.addEventListener(
             return;
         }
 
-        const newTime =
+        music.currentTime =
             (progressBar.value / 100) *
             music.duration;
-
-        music.currentTime = newTime;
 
     }
 );
 
 
-/* =========================================================
-   VOLTAR 10 SEGUNDOS
-========================================================= */
+// ========================================
+// VOLTAR 10 SEGUNDOS
+// ========================================
 
 backButton.addEventListener(
     "click",
@@ -275,9 +224,9 @@ backButton.addEventListener(
 );
 
 
-/* =========================================================
-   AVANÇAR 10 SEGUNDOS
-========================================================= */
+// ========================================
+// AVANÇAR 10 SEGUNDOS
+// ========================================
 
 forwardButton.addEventListener(
     "click",
@@ -293,9 +242,9 @@ forwardButton.addEventListener(
 );
 
 
-/* =========================================================
-   IR PARA MEMÓRIAS
-========================================================= */
+// ========================================
+// IR PARA MEMÓRIAS
+// ========================================
 
 function goToMemories() {
 
@@ -313,10 +262,12 @@ function goToMemories() {
 
 }
 
+
 scrollMemories.addEventListener(
     "click",
     goToMemories
 );
+
 
 memoryCard.addEventListener(
     "click",
@@ -324,22 +275,15 @@ memoryCard.addEventListener(
 );
 
 
-/* =========================================================
-   BOTÃO VOLTE PARA A CAIXA
-========================================================= */
+// ========================================
+// PISTA FINAL
+// ========================================
 
 backToBoxButton.addEventListener(
     "click",
     () => {
 
-        /*
-         * Não abre outra página.
-         *
-         * A intenção é que essa mensagem seja a pista
-         * para ele voltar fisicamente para a caixa.
-         */
-
-        backToBoxButton.textContent =
+        backToBoxText.textContent =
             "📦 Agora é com você.";
 
         backToBoxButton.style.pointerEvents =
@@ -349,12 +293,15 @@ backToBoxButton.addEventListener(
 );
 
 
-/* =========================================================
-   EFEITO DE ENTRADA DOS CARDS
-========================================================= */
+// ========================================
+// ANIMAÇÃO DOS CARDS
+// ========================================
 
 const cards =
-    document.querySelectorAll(".modern-card");
+    document.querySelectorAll(
+        ".modern-card"
+    );
+
 
 const observer =
     new IntersectionObserver(
@@ -365,7 +312,9 @@ const observer =
 
                     if (entry.isIntersecting) {
 
-                        entry.target.style.opacity = "1";
+                        entry.target.style.opacity =
+                            "1";
+
                         entry.target.style.transform =
                             "translateY(0)";
 
@@ -394,7 +343,7 @@ cards.forEach(
             "translateY(18px)";
 
         card.style.transition =
-            "opacity 0.6s ease, transform 0.6s ease";
+            "opacity .6s ease, transform .6s ease";
 
         observer.observe(card);
 
@@ -402,8 +351,8 @@ cards.forEach(
 );
 
 
-/* =========================================================
-   GARANTE ESTADO INICIAL
-========================================================= */
+// ========================================
+// INICIALIZAÇÃO
+// ========================================
 
 updatePlayer();
