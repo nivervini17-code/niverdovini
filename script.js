@@ -4,99 +4,92 @@ const mainSite = document.getElementById("mainSite");
 const startButton = document.getElementById("startButton");
 
 const introSound = document.getElementById("introSound");
-
 const music = document.getElementById("music");
+
 const playButton = document.getElementById("playButton");
 const playIcon = document.getElementById("playIcon");
 const playText = document.getElementById("playText");
 
-const mainPlayButton =
-    document.getElementById("mainPlayButton");
+const mainPlayButton = document.getElementById("mainPlayButton");
+const playerOverlay = document.getElementById("playerOverlay");
 
-const playerOverlay =
-    document.getElementById("playerOverlay");
+const progressBar = document.getElementById("progressBar");
+const currentTime = document.getElementById("currentTime");
+const duration = document.getElementById("duration");
 
-const progressBar =
-    document.getElementById("progressBar");
+const backButton = document.getElementById("backButton");
+const forwardButton = document.getElementById("forwardButton");
 
-const currentTime =
-    document.getElementById("currentTime");
+const scrollMemories = document.getElementById("scrollMemories");
+const memoryCard = document.getElementById("memoryCard");
 
-const duration =
-    document.getElementById("duration");
-
-const backButton =
-    document.getElementById("backButton");
-
-const forwardButton =
-    document.getElementById("forwardButton");
-
-const scrollMemories =
-    document.getElementById("scrollMemories");
-
-const memoryCard =
-    document.getElementById("memoryCard");
-
-const backToBoxButton =
-    document.getElementById("backToBoxButton");
-
-const backToBoxText =
-    document.getElementById("backToBoxText");
+const backToBoxButton = document.getElementById("backToBoxButton");
+const backToBoxText = document.getElementById("backToBoxText");
 
 
 // ========================================
-// TELA DE ABERTURA + VINIFLIX CINEMÁTICO
+// ABERTURA VINIFLIX
 // ========================================
 
-startButton.addEventListener("click", () => {
+let openingStarted = false;
 
-    /*
-        O clique do usuário acontece aqui.
-        Por isso o navegador normalmente permite
-        iniciar o áudio da abertura neste momento.
-    */
+startButton.addEventListener("click", startViniFlix);
 
-    if (introSound) {
 
-        introSound.currentTime = 0;
+// Permite também entrar apertando Enter
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && !openingStarted) {
+        startViniFlix();
+    }
+});
 
-        introSound.volume = 0.9;
 
-        introSound.play()
-            .catch(() => {
-                /*
-                    Se o navegador bloquear o áudio,
-                    a animação continua normalmente.
-                */
-            });
+function startViniFlix() {
 
+    if (openingStarted) {
+        return;
     }
 
+    openingStarted = true;
 
-    // Primeiro desaparece a tela de aniversário.
+    // Evita que a tela principal apareça durante a animação
+    mainSite.classList.add("hidden");
 
+    // Primeiro desaparece a tela "Feliz aniversário"
     introScreen.classList.add("hide");
 
+    // Pequeno intervalo para a transição ficar cinematográfica
+    setTimeout(() => {
 
-    /*
-        Pequena pausa para a tela preta entrar
-        naturalmente.
-    */
+        cinematicIntro.classList.add("show");
+
+        // Tenta tocar o som da abertura
+        if (introSound) {
+
+            introSound.currentTime = 0;
+
+            introSound.play().catch(() => {
+                console.log(
+                    "O navegador bloqueou o áudio da abertura."
+                );
+            });
+
+        }
+
+    }, 650);
+
+
+    // Depois da animação, entra no ViniFlix
+    setTimeout(() => {
+
+        cinematicIntro.classList.add("finish");
+
+    }, 3200);
+
 
     setTimeout(() => {
 
-        cinematicIntro.classList.add("active");
-
-    }, 500);
-
-
-    /*
-        Depois da animação, entra no ViniFlix.
-    */
-
-    setTimeout(() => {
-
-        cinematicIntro.classList.remove("active");
+        cinematicIntro.classList.remove("show");
 
         mainSite.classList.remove("hidden");
 
@@ -105,9 +98,8 @@ startButton.addEventListener("click", () => {
             behavior: "instant"
         });
 
-    }, 2800);
-
-});
+    }, 4100);
+}
 
 
 // ========================================
@@ -129,7 +121,6 @@ function formatTime(seconds) {
             .padStart(2, "0");
 
     return `${minutes}:${secondsPart}`;
-
 }
 
 
@@ -138,30 +129,17 @@ function updatePlayer() {
     const isPlaying =
         !music.paused;
 
-
     playIcon.textContent =
-        isPlaying
-            ? "❚❚"
-            : "▶";
-
+        isPlaying ? "❚❚" : "▶";
 
     playText.textContent =
-        isPlaying
-            ? "Pausar"
-            : "Ouvir";
-
+        isPlaying ? "Pausar" : "Ouvir";
 
     mainPlayButton.textContent =
-        isPlaying
-            ? "❚❚"
-            : "▶";
-
+        isPlaying ? "❚❚" : "▶";
 
     playerOverlay.textContent =
-        isPlaying
-            ? "❚❚"
-            : "▶";
-
+        isPlaying ? "❚❚" : "▶";
 }
 
 
@@ -189,28 +167,25 @@ function toggleMusic() {
 
     }
 
-
     updatePlayer();
-
 }
 
 
-// ========================================
-// BOTÕES DO PLAYER
-// ========================================
-
+// Botão principal
 playButton.addEventListener(
     "click",
     toggleMusic
 );
 
 
+// Botão central
 mainPlayButton.addEventListener(
     "click",
     toggleMusic
 );
 
 
+// Capa da música
 playerOverlay.addEventListener(
     "click",
     toggleMusic
@@ -267,11 +242,9 @@ music.addEventListener(
             return;
         }
 
-
         progressBar.value =
             (music.currentTime /
                 music.duration) * 100;
-
 
         currentTime.textContent =
             formatTime(music.currentTime);
@@ -291,7 +264,6 @@ progressBar.addEventListener(
         if (!music.duration) {
             return;
         }
-
 
         music.currentTime =
             (progressBar.value / 100) *
@@ -344,15 +316,11 @@ forwardButton.addEventListener(
 function goToMemories() {
 
     const memories =
-        document.getElementById(
-            "memories"
-        );
-
+        document.getElementById("memories");
 
     if (!memories) {
         return;
     }
-
 
     memories.scrollIntoView({
         behavior: "smooth",
@@ -385,7 +353,6 @@ backToBoxButton.addEventListener(
         backToBoxText.textContent =
             "📦 Agora é com você.";
 
-
         backToBoxButton.style.pointerEvents =
             "none";
 
@@ -415,10 +382,8 @@ const observer =
                         entry.target.style.opacity =
                             "1";
 
-
                         entry.target.style.transform =
                             "translateY(0)";
-
 
                         observer.unobserve(
                             entry.target
@@ -431,7 +396,7 @@ const observer =
 
         },
         {
-            threshold:0.15
+            threshold: 0.15
         }
     );
 
@@ -441,14 +406,11 @@ cards.forEach(
 
         card.style.opacity = "0";
 
-
         card.style.transform =
             "translateY(18px)";
 
-
         card.style.transition =
             "opacity .6s ease, transform .6s ease";
-
 
         observer.observe(card);
 
@@ -459,5 +421,8 @@ cards.forEach(
 // ========================================
 // INICIALIZAÇÃO
 // ========================================
+
+cinematicIntro.classList.remove("show");
+cinematicIntro.classList.remove("finish");
 
 updatePlayer();
