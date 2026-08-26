@@ -1,44 +1,112 @@
 const introScreen = document.getElementById("introScreen");
+const cinematicIntro = document.getElementById("cinematicIntro");
 const mainSite = document.getElementById("mainSite");
 const startButton = document.getElementById("startButton");
+
+const introSound = document.getElementById("introSound");
 
 const music = document.getElementById("music");
 const playButton = document.getElementById("playButton");
 const playIcon = document.getElementById("playIcon");
 const playText = document.getElementById("playText");
 
-const mainPlayButton = document.getElementById("mainPlayButton");
-const playerOverlay = document.getElementById("playerOverlay");
+const mainPlayButton =
+    document.getElementById("mainPlayButton");
 
-const progressBar = document.getElementById("progressBar");
-const currentTime = document.getElementById("currentTime");
-const duration = document.getElementById("duration");
+const playerOverlay =
+    document.getElementById("playerOverlay");
 
-const backButton = document.getElementById("backButton");
-const forwardButton = document.getElementById("forwardButton");
+const progressBar =
+    document.getElementById("progressBar");
 
-const scrollMemories = document.getElementById("scrollMemories");
-const memoryCard = document.getElementById("memoryCard");
+const currentTime =
+    document.getElementById("currentTime");
 
-const backToBoxButton = document.getElementById("backToBoxButton");
-const backToBoxText = document.getElementById("backToBoxText");
+const duration =
+    document.getElementById("duration");
+
+const backButton =
+    document.getElementById("backButton");
+
+const forwardButton =
+    document.getElementById("forwardButton");
+
+const scrollMemories =
+    document.getElementById("scrollMemories");
+
+const memoryCard =
+    document.getElementById("memoryCard");
+
+const backToBoxButton =
+    document.getElementById("backToBoxButton");
+
+const backToBoxText =
+    document.getElementById("backToBoxText");
 
 
 // ========================================
-// TELA DE ABERTURA
+// TELA DE ABERTURA + VINIFLIX CINEMÁTICO
 // ========================================
 
 startButton.addEventListener("click", () => {
+
+    /*
+        O clique do usuário acontece aqui.
+        Por isso o navegador normalmente permite
+        iniciar o áudio da abertura neste momento.
+    */
+
+    if (introSound) {
+
+        introSound.currentTime = 0;
+
+        introSound.volume = 0.9;
+
+        introSound.play()
+            .catch(() => {
+                /*
+                    Se o navegador bloquear o áudio,
+                    a animação continua normalmente.
+                */
+            });
+
+    }
+
+
+    // Primeiro desaparece a tela de aniversário.
+
     introScreen.classList.add("hide");
 
+
+    /*
+        Pequena pausa para a tela preta entrar
+        naturalmente.
+    */
+
     setTimeout(() => {
+
+        cinematicIntro.classList.add("active");
+
+    }, 500);
+
+
+    /*
+        Depois da animação, entra no ViniFlix.
+    */
+
+    setTimeout(() => {
+
+        cinematicIntro.classList.remove("active");
+
         mainSite.classList.remove("hidden");
 
         window.scrollTo({
             top: 0,
             behavior: "instant"
         });
-    }, 700);
+
+    }, 2800);
+
 });
 
 
@@ -47,36 +115,53 @@ startButton.addEventListener("click", () => {
 // ========================================
 
 function formatTime(seconds) {
+
     if (!Number.isFinite(seconds)) {
         return "0:00";
     }
 
-    const minutes = Math.floor(seconds / 60);
+    const minutes =
+        Math.floor(seconds / 60);
 
-    const secondsPart = Math.floor(seconds % 60)
-        .toString()
-        .padStart(2, "0");
+    const secondsPart =
+        Math.floor(seconds % 60)
+            .toString()
+            .padStart(2, "0");
 
     return `${minutes}:${secondsPart}`;
+
 }
 
 
 function updatePlayer() {
-    const isPlaying = !music.paused;
 
-    playIcon.textContent = isPlaying ? "❚❚" : "▶";
+    const isPlaying =
+        !music.paused;
 
-    playText.textContent = isPlaying
-        ? "Pausar"
-        : "Ouvir";
 
-    mainPlayButton.textContent = isPlaying
-        ? "❚❚"
-        : "▶";
+    playIcon.textContent =
+        isPlaying
+            ? "❚❚"
+            : "▶";
 
-    playerOverlay.textContent = isPlaying
-        ? "❚❚"
-        : "▶";
+
+    playText.textContent =
+        isPlaying
+            ? "Pausar"
+            : "Ouvir";
+
+
+    mainPlayButton.textContent =
+        isPlaying
+            ? "❚❚"
+            : "▶";
+
+
+    playerOverlay.textContent =
+        isPlaying
+            ? "❚❚"
+            : "▶";
+
 }
 
 
@@ -86,7 +171,9 @@ function toggleMusic() {
 
         music.play()
             .then(() => {
+
                 updatePlayer();
+
             })
             .catch(() => {
 
@@ -102,25 +189,28 @@ function toggleMusic() {
 
     }
 
+
     updatePlayer();
+
 }
 
 
-// Botão principal
+// ========================================
+// BOTÕES DO PLAYER
+// ========================================
+
 playButton.addEventListener(
     "click",
     toggleMusic
 );
 
 
-// Botão central do player
 mainPlayButton.addEventListener(
     "click",
     toggleMusic
 );
 
 
-// Overlay da capa
 playerOverlay.addEventListener(
     "click",
     toggleMusic
@@ -162,7 +252,8 @@ music.addEventListener(
 
         progressBar.value = 0;
 
-        currentTime.textContent = "0:00";
+        currentTime.textContent =
+            "0:00";
 
     }
 );
@@ -176,8 +267,11 @@ music.addEventListener(
             return;
         }
 
+
         progressBar.value =
-            (music.currentTime / music.duration) * 100;
+            (music.currentTime /
+                music.duration) * 100;
+
 
         currentTime.textContent =
             formatTime(music.currentTime);
@@ -197,6 +291,7 @@ progressBar.addEventListener(
         if (!music.duration) {
             return;
         }
+
 
         music.currentTime =
             (progressBar.value / 100) *
@@ -249,11 +344,15 @@ forwardButton.addEventListener(
 function goToMemories() {
 
     const memories =
-        document.getElementById("memories");
+        document.getElementById(
+            "memories"
+        );
+
 
     if (!memories) {
         return;
     }
+
 
     memories.scrollIntoView({
         behavior: "smooth",
@@ -286,6 +385,7 @@ backToBoxButton.addEventListener(
         backToBoxText.textContent =
             "📦 Agora é com você.";
 
+
         backToBoxButton.style.pointerEvents =
             "none";
 
@@ -315,8 +415,10 @@ const observer =
                         entry.target.style.opacity =
                             "1";
 
+
                         entry.target.style.transform =
                             "translateY(0)";
+
 
                         observer.unobserve(
                             entry.target
@@ -329,7 +431,7 @@ const observer =
 
         },
         {
-            threshold: 0.15
+            threshold:0.15
         }
     );
 
@@ -339,11 +441,14 @@ cards.forEach(
 
         card.style.opacity = "0";
 
+
         card.style.transform =
             "translateY(18px)";
 
+
         card.style.transition =
             "opacity .6s ease, transform .6s ease";
+
 
         observer.observe(card);
 
