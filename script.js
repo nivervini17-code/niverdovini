@@ -65,53 +65,46 @@ const backToBoxText =
     document.getElementById("backToBoxText");
 
 
-/* ========================================
-   ENCERRAMENTO
-======================================== */
-
 const endingScreen =
     document.getElementById("endingScreen");
 
-const endingFirstMessage =
-    document.getElementById("endingFirstMessage");
 
-const endingFinalMessage =
-    document.getElementById("endingFinalMessage");
-
-
-/* ========================================
-   ABERTURA DO ViniFlix
-======================================== */
+// ========================================
+// ABERTURA DO ViniFlix
+// ========================================
 
 startButton.addEventListener("click", () => {
 
+    // Primeiro esconde a tela
+    // "Feliz aniversário"
     introScreen.classList.add("hide");
 
 
+    // Pequeno intervalo para a transição
     setTimeout(() => {
 
+        // Mostra a abertura cinematográfica
         cinematicIntro.classList.add("active");
 
 
+        // Tenta começar o som da abertura
         if (introSound) {
 
             introSound.currentTime = 0;
 
-            introSound
-                .play()
-                .catch(() => {
-
-                    console.log(
-                        "O navegador bloqueou o áudio da abertura."
-                    );
-
-                });
+            introSound.play().catch(() => {
+                console.log(
+                    "O navegador bloqueou o áudio da abertura."
+                );
+            });
 
         }
 
     }, 500);
 
 
+    // Depois da animação,
+    // abre o ViniFlix
     setTimeout(() => {
 
         cinematicIntro.classList.add("exit");
@@ -122,7 +115,6 @@ startButton.addEventListener("click", () => {
             cinematicIntro.classList.remove("active");
 
             mainSite.classList.remove("hidden");
-
 
             window.scrollTo({
                 top: 0,
@@ -138,9 +130,9 @@ startButton.addEventListener("click", () => {
 });
 
 
-/* ========================================
-   PLAYER
-======================================== */
+// ========================================
+// PLAYER
+// ========================================
 
 function formatTime(seconds) {
 
@@ -226,9 +218,9 @@ function toggleMusic() {
 }
 
 
-/* ========================================
-   BOTÕES DO PLAYER
-======================================== */
+// ========================================
+// BOTÕES DO PLAYER
+// ========================================
 
 playButton.addEventListener(
     "click",
@@ -248,9 +240,9 @@ playerOverlay.addEventListener(
 );
 
 
-/* ========================================
-   EVENTOS DO ÁUDIO
-======================================== */
+// ========================================
+// EVENTOS DO ÁUDIO
+// ========================================
 
 music.addEventListener(
     "play",
@@ -300,10 +292,8 @@ music.addEventListener(
 
 
         progressBar.value =
-            (
-                music.currentTime /
-                music.duration
-            ) * 100;
+            (music.currentTime /
+            music.duration) * 100;
 
 
         currentTime.textContent =
@@ -315,9 +305,9 @@ music.addEventListener(
 );
 
 
-/* ========================================
-   BARRA DE PROGRESSO
-======================================== */
+// ========================================
+// BARRA DE PROGRESSO
+// ========================================
 
 progressBar.addEventListener(
     "input",
@@ -329,18 +319,16 @@ progressBar.addEventListener(
 
 
         music.currentTime =
-            (
-                progressBar.value /
-                100
-            ) * music.duration;
+            (progressBar.value / 100) *
+            music.duration;
 
     }
 );
 
 
-/* ========================================
-   VOLTAR 10 SEGUNDOS
-======================================== */
+// ========================================
+// VOLTAR 10 SEGUNDOS
+// ========================================
 
 backButton.addEventListener(
     "click",
@@ -356,9 +344,9 @@ backButton.addEventListener(
 );
 
 
-/* ========================================
-   AVANÇAR 10 SEGUNDOS
-======================================== */
+// ========================================
+// AVANÇAR 10 SEGUNDOS
+// ========================================
 
 forwardButton.addEventListener(
     "click",
@@ -374,9 +362,9 @@ forwardButton.addEventListener(
 );
 
 
-/* ========================================
-   IR PARA MEMÓRIAS
-======================================== */
+// ========================================
+// IR PARA MEMÓRIAS
+// ========================================
 
 function goToMemories() {
 
@@ -411,94 +399,56 @@ memoryCard.addEventListener(
 );
 
 
-/* ========================================
-   ENCERRAMENTO CINEMATOGRÁFICO
-======================================== */
+// ========================================
+// PISTA FINAL + ENCERRAMENTO
+// ========================================
 
-function playEnding() {
+backToBoxButton.addEventListener(
+    "click",
+    () => {
 
-    if (!endingScreen) {
-        return;
-    }
+        backToBoxText.textContent =
+            "📦 Agora é com você.";
 
-
-    /*
-       Desabilita o botão para impedir
-       vários cliques durante a animação.
-    */
-
-    if (backToBoxButton) {
-
-        backToBoxButton.disabled = true;
 
         backToBoxButton.style.pointerEvents =
             "none";
 
+
+        // Pequena pausa para a frase aparecer
+        // antes de começar o encerramento.
+        setTimeout(() => {
+
+            if (!endingScreen) {
+                return;
+            }
+
+
+            endingScreen.classList.add("active");
+
+            endingScreen.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+
+            // Volta o scroll para o topo
+            // enquanto a tela cinematográfica aparece.
+            window.scrollTo({
+                top: 0,
+                behavior: "instant"
+            });
+
+
+        }, 900);
+
     }
-
-
-    /*
-       Para a música da Trevo
-       suavemente antes do encerramento.
-    */
-
-    if (music && !music.paused) {
-
-        music.pause();
-
-    }
-
-
-    /*
-       Faz o ViniFlix entrar na tela final.
-    */
-
-    endingScreen.classList.add("active");
-
-
-    /*
-       Depois de aparecer a primeira mensagem,
-       revela a frase final.
-    */
-
-    setTimeout(() => {
-
-        endingScreen.classList.add(
-            "show-final"
-        );
-
-    }, 3000);
-
-
-    /*
-       Depois que a frase fica na tela,
-       desaparece lentamente.
-    */
-
-    setTimeout(() => {
-
-        endingScreen.classList.add(
-            "fade-out"
-        );
-
-    }, 6200);
-
-}
-
-
-/*
-   Botão "Volte para a caixa."
-*/
-
-backToBoxButton.addEventListener(
-    "click",
-    playEnding
 );
 
 
-/* ========================================
-   ANIMAÇÃO DOS CARDS
-======================================== */
+// ========================================
+// ANIMAÇÃO DOS CARDS
+// ========================================
 
 const cards =
     document.querySelectorAll(
@@ -550,8 +500,8 @@ cards.forEach(
 );
 
 
-/* ========================================
-   INICIALIZAÇÃO
-======================================== */
+// ========================================
+// INICIALIZAÇÃO
+// ========================================
 
 updatePlayer();
